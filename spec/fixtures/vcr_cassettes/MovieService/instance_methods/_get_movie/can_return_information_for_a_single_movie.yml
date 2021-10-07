@@ -25,7 +25,7 @@ http_interactions:
       Connection:
       - keep-alive
       Date:
-      - Thu, 07 Oct 2021 21:17:53 GMT
+      - Thu, 07 Oct 2021 22:28:44 GMT
       Server:
       - openresty
       Access-Control-Allow-Origin:
@@ -42,9 +42,9 @@ http_interactions:
       X-Memc-Key:
       - ade4da0c2a4d430121774a5494398f64a3949dda
       X-Memc-Age:
-      - '2454'
+      - '6705'
       X-Memc-Expires:
-      - '14922'
+      - '10671'
       Etag:
       - W/"97e155b02a834b3a8697d5dcc6b3701d"
       X-Edge-Origin-Shield-Skipped:
@@ -52,13 +52,15 @@ http_interactions:
       Vary:
       - Accept-Encoding
       X-Cache:
-      - Miss from cloudfront
+      - Hit from cloudfront
       Via:
-      - 1.1 fdc1968a0f97e3bcaa230ab8e3e6223d.cloudfront.net (CloudFront)
+      - 1.1 91f1c114eac2b00f07286bc49dddd7e5.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
-      - DFW55-C3
+      - DEN50-C2
       X-Amz-Cf-Id:
-      - OF9fqfYAwSKJI_mmEkAwtmiapImuoYsUN-OYQZk2my-2Fb3Bb79IPw==
+      - hAJoOTQclbEgBnP3E0yZOrMM6RqWdHxOlk7K9cr_f5FY2patx3M32w==
+      Age:
+      - '5'
     body:
       encoding: ASCII-8BIT
       string: '{"adult":false,"backdrop_path":"/fygeMr16EcxJiYhdiO1LEr7iHtI.jpg","belongs_to_collection":null,"budget":63000000,"genres":[{"id":18,"name":"Drama"}],"homepage":"http://www.foxmovies.com/movies/fight-club","id":550,"imdb_id":"tt0137523","original_language":"en","original_title":"Fight
@@ -75,7 +77,7 @@ http_interactions:
         Linson Company","origin_country":"US"}],"production_countries":[{"iso_3166_1":"DE","name":"Germany"},{"iso_3166_1":"US","name":"United
         States of America"}],"release_date":"1999-10-15","revenue":100853753,"runtime":139,"spoken_languages":[{"english_name":"English","iso_639_1":"en","name":"English"}],"status":"Released","tagline":"Mischief.
         Mayhem. Soap.","title":"Fight Club","video":false,"vote_average":8.4,"vote_count":22517}'
-  recorded_at: Thu, 07 Oct 2021 21:17:53 GMT
+  recorded_at: Thu, 07 Oct 2021 22:28:49 GMT
 - request:
     method: get
     uri: https://api.themoviedb.org/3/movie/550?api_key=6fb7f4e0ab0ae38d119bf702769de95d
@@ -101,7 +103,7 @@ http_interactions:
       Connection:
       - keep-alive
       Date:
-      - Thu, 07 Oct 2021 21:17:53 GMT
+      - Thu, 07 Oct 2021 22:28:44 GMT
       Server:
       - openresty
       Access-Control-Allow-Origin:
@@ -118,9 +120,9 @@ http_interactions:
       X-Memc-Key:
       - ade4da0c2a4d430121774a5494398f64a3949dda
       X-Memc-Age:
-      - '2454'
+      - '6705'
       X-Memc-Expires:
-      - '14922'
+      - '10671'
       Etag:
       - W/"97e155b02a834b3a8697d5dcc6b3701d"
       X-Edge-Origin-Shield-Skipped:
@@ -130,11 +132,13 @@ http_interactions:
       X-Cache:
       - Hit from cloudfront
       Via:
-      - 1.1 e3aaa12a3d6bdaeb78a7840f524b652d.cloudfront.net (CloudFront)
+      - 1.1 ed8294655bb258e13bfb027c25483ddb.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
-      - DFW55-C3
+      - DEN50-C2
       X-Amz-Cf-Id:
-      - LH9S0D07tWjlCKAAm0fHBeBx2Wqtx9BFdexGQRbVHsoc32itn9b4cg==
+      - LuEDfQqT1Q6dWK4Onba-VHQsI5jQRXRcx2S841ksue9fxTSNMz1yOg==
+      Age:
+      - '6'
     body:
       encoding: ASCII-8BIT
       string: '{"adult":false,"backdrop_path":"/fygeMr16EcxJiYhdiO1LEr7iHtI.jpg","belongs_to_collection":null,"budget":63000000,"genres":[{"id":18,"name":"Drama"}],"homepage":"http://www.foxmovies.com/movies/fight-club","id":550,"imdb_id":"tt0137523","original_language":"en","original_title":"Fight
@@ -151,7 +155,7 @@ http_interactions:
         Linson Company","origin_country":"US"}],"production_countries":[{"iso_3166_1":"DE","name":"Germany"},{"iso_3166_1":"US","name":"United
         States of America"}],"release_date":"1999-10-15","revenue":100853753,"runtime":139,"spoken_languages":[{"english_name":"English","iso_639_1":"en","name":"English"}],"status":"Released","tagline":"Mischief.
         Mayhem. Soap.","title":"Fight Club","video":false,"vote_average":8.4,"vote_count":22517}'
-  recorded_at: Thu, 07 Oct 2021 21:17:53 GMT
+  recorded_at: Thu, 07 Oct 2021 22:28:49 GMT
 - request:
     method: get
     uri: https://api.themoviedb.org/3/movie/550?api_key=6fb7f4e0ab0ae38d119bf702769de95d
@@ -177,7 +181,7 @@ http_interactions:
       Connection:
       - keep-alive
       Date:
-      - Thu, 07 Oct 2021 21:17:53 GMT
+      - Thu, 07 Oct 2021 22:28:44 GMT
       Server:
       - openresty
       Access-Control-Allow-Origin:
@@ -194,9 +198,9 @@ http_interactions:
       X-Memc-Key:
       - ade4da0c2a4d430121774a5494398f64a3949dda
       X-Memc-Age:
-      - '2454'
+      - '6705'
       X-Memc-Expires:
-      - '14922'
+      - '10671'
       Etag:
       - W/"97e155b02a834b3a8697d5dcc6b3701d"
       X-Edge-Origin-Shield-Skipped:
@@ -206,11 +210,13 @@ http_interactions:
       X-Cache:
       - Hit from cloudfront
       Via:
-      - 1.1 db8cefe3e60ee6957f27e98e7b5faef2.cloudfront.net (CloudFront)
+      - 1.1 2c861897aa9389c1f47299b6fea5b59d.cloudfront.net (CloudFront)
       X-Amz-Cf-Pop:
-      - DFW55-C3
+      - DEN50-C2
       X-Amz-Cf-Id:
-      - iG73F5OChyhn13RWnb1sgS-gY7D9H4nO7RMsND_oqabqxt58mBBXVA==
+      - xHPTkh-PMXkMafgYz2-9uh05CgmXWbAiNZhEX1ll0y8qZcTq6FUyVA==
+      Age:
+      - '6'
     body:
       encoding: ASCII-8BIT
       string: '{"adult":false,"backdrop_path":"/fygeMr16EcxJiYhdiO1LEr7iHtI.jpg","belongs_to_collection":null,"budget":63000000,"genres":[{"id":18,"name":"Drama"}],"homepage":"http://www.foxmovies.com/movies/fight-club","id":550,"imdb_id":"tt0137523","original_language":"en","original_title":"Fight
@@ -227,5 +233,5 @@ http_interactions:
         Linson Company","origin_country":"US"}],"production_countries":[{"iso_3166_1":"DE","name":"Germany"},{"iso_3166_1":"US","name":"United
         States of America"}],"release_date":"1999-10-15","revenue":100853753,"runtime":139,"spoken_languages":[{"english_name":"English","iso_639_1":"en","name":"English"}],"status":"Released","tagline":"Mischief.
         Mayhem. Soap.","title":"Fight Club","video":false,"vote_average":8.4,"vote_count":22517}'
-  recorded_at: Thu, 07 Oct 2021 21:17:53 GMT
+  recorded_at: Thu, 07 Oct 2021 22:28:50 GMT
 recorded_with: VCR 6.0.0
