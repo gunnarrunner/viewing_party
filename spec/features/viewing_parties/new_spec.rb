@@ -24,17 +24,7 @@ RSpec.describe 'it can make a view party form' do
       visit "/movies/#{@movie.id}"
     end
 
-    it 'can visit a viewing party form' do
-      json_response = File.read('spec/fixtures/search_movie.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['movie_key']}&include_adult=false&page=1&query=fight%20club").
-      with(
-        headers: {
-          'Accept'=>'*/*',
-          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent'=>'Faraday v1.7.0'
-          }).
-          to_return(status: 200, body: json_response, headers: {})
+    it 'can visit a viewing party form', :vcr  do
 
       click_on 'Create a Viewing Party for Movie'
 
@@ -49,18 +39,7 @@ RSpec.describe 'it can make a view party form' do
       expect(page).to have_button("Create Party")
     end
 
-    it 'user can fill out form to create a viewing party' do
-
-      json_response = File.read('spec/fixtures/search_movie.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['movie_key']}&include_adult=false&page=1&query=fight%20club").
-      with(
-        headers: {
-          'Accept'=>'*/*',
-          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent'=>'Faraday v1.7.0'
-          }).
-          to_return(status: 200, body: json_response, headers: {})
+    it 'user can fill out form to create a viewing party', :vcr  do
 
       click_on 'Create a Viewing Party for Movie'
 
@@ -91,102 +70,80 @@ RSpec.describe 'it can make a view party form' do
       expect(attendees[1].user_id).to eq(@user2.id)
     end
 
-            it 'displays watch party information on users dashboard for host' do
+    it 'displays watch party information on users dashboard for host', :vcr  do
 
-              json_response = File.read('spec/fixtures/search_movie.json')
+          click_on 'Create a Viewing Party for Movie'
 
-              stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['movie_key']}&include_adult=false&page=1&query=fight%20club").
-              with(
-                headers: {
-                  'Accept'=>'*/*',
-                  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-                  'User-Agent'=>'Faraday v1.7.0'
-                  }).
-                  to_return(status: 200, body: json_response, headers: {})
+          fill_in :date, with: "20/9/2021"
+          fill_in :start_time, with: Time.parse("2021-09-20 19:15")
+          page.check "attendees[#{@user2.id}]"
 
-                  click_on 'Create a Viewing Party for Movie'
+          click_on 'Create Party'
 
-                  fill_in :date, with: "20/9/2021"
-                  fill_in :start_time, with: Time.parse("2021-09-20 19:15")
-                  page.check "attendees[#{@user2.id}]"
+          viewing_party = WatchParty.last
 
-                  click_on 'Create Party'
+      within("#party-#{viewing_party.id}") do
+        expect(page).to have_content(viewing_party.movie)
+        expect(page).to have_content("Mon, Sep 20")
+        expect(page).to have_content(viewing_party.start_time.localtime.strftime('%I:%M %P'))
+        expect(page).to have_content('Hosting')
+      end
+    end
 
-                  viewing_party = WatchParty.last
+    it 'displays watch party information on users dashboard for an invited user', :vcr  do
 
-              within("#party-#{viewing_party.id}") do
-                expect(page).to have_content(viewing_party.movie)
-                expect(page).to have_content("Mon, Sep 20")
-                expect(page).to have_content(viewing_party.start_time.localtime.strftime('%I:%M %P'))
-                expect(page).to have_content('Hosting')
-              end
-            end
+      viewing_party = WatchParty.create!(movie: "Fight Club", date: "20/9/2021", start_time: Time.parse("2021-09-20 19:15"), movie_id: '550', user: @user1, duration: 139)
 
-            it 'displays watch party information on users dashboard for an invited user' do
+      Attendee.create!(watch_party: viewing_party, user: @user1, status: 0)
+      Attendee.create!(watch_party: viewing_party, user: @user2)
 
-              viewing_party = WatchParty.create!(movie: "Fight Club", date: "20/9/2021", start_time: Time.parse("2021-09-20 19:15"), movie_id: '550', user: @user1, duration: 139)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user2)
 
-              Attendee.create!(watch_party: viewing_party, user: @user1, status: 0)
-              Attendee.create!(watch_party: viewing_party, user: @user2)
+        visit '/dashboard'
 
-              allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user2)
+      within("#party-#{viewing_party.id}") do
+        expect(page).to have_content(viewing_party.movie)
+        expect(page).to have_content("Mon, Sep 20")
+        expect(page).to have_content("07:15 pm")
+        expect(page).to have_content('Invited')
+      end
+    end
 
-                visit '/dashboard'
+    it 'movie will not display on users dashboard if they were not invited', :vcr  do
 
-              within("#party-#{viewing_party.id}") do
-                expect(page).to have_content(viewing_party.movie)
-                expect(page).to have_content("Mon, Sep 20")
-                expect(page).to have_content("07:15 pm")
-                expect(page).to have_content('Invited')
-              end
-            end
+      viewing_party = WatchParty.create!(movie: "Fight Club", date: "20/9/2021", start_time: Time.parse("2021-09-20 19:15"), movie_id: '550', user: @user1, duration: 139)
 
-            it 'movie will not display on users dashboard if they were not invited' do
+      Attendee.create!(watch_party: viewing_party, user: @user1, status: 0)
+      Attendee.create!(watch_party: viewing_party, user: @user2)
 
-              viewing_party = WatchParty.create!(movie: "Fight Club", date: "20/9/2021", start_time: Time.parse("2021-09-20 19:15"), movie_id: '550', user: @user1, duration: 139)
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user3)
 
-              Attendee.create!(watch_party: viewing_party, user: @user1, status: 0)
-              Attendee.create!(watch_party: viewing_party, user: @user2)
+        visit '/dashboard'
 
-              allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user3)
+        expect(page).to_not have_css("#party-#{viewing_party.id}")
+        expect(page).to have_content("No Viewing Parties Yet")
+        expect(page).to have_button("Start A Viewing Party!")
+    end
 
-                visit '/dashboard'
+    it 'can fill out half a form and be redirected to the form for not filling out all details', :vcr  do
 
-                expect(page).to_not have_css("#party-#{viewing_party.id}")
-                expect(page).to have_content("No Viewing Parties Yet")
-                expect(page).to have_button("Start A Viewing Party!")
-            end
+      click_on 'Create a Viewing Party for Movie'
 
-            it 'can fill out half a form and be redirected to the form for not filling out all details' do
+      fill_in :start_time, with: Time.parse("2021-09-20 19:15")
+      page.check "attendees[#{@user2.id}]"
 
-              json_response = File.read('spec/fixtures/search_movie.json')
+      click_on 'Create Party'
 
-              stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['movie_key']}&include_adult=false&page=1&query=fight%20club").
-              with(
-                headers: {
-              'Accept'=>'*/*',
-              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'User-Agent'=>'Faraday v1.7.0'
-              }).
-              to_return(status: 200, body: json_response, headers: {})
+      expect(current_path).to eq("/viewing-parties/new")
+      expect(page).to have_content("Form missing details")
+    end
 
-              click_on 'Create a Viewing Party for Movie'
+    it 'cannot visit a creating a viewing party form if you are not logged in as a user', :vcr  do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(nil)
+      
+      visit('/viewing-parties/new')
 
-              fill_in :start_time, with: Time.parse("2021-09-20 19:15")
-              page.check "attendees[#{@user2.id}]"
-
-              click_on 'Create Party'
-
-              expect(current_path).to eq("/viewing-parties/new")
-              expect(page).to have_content("Form missing details")
-            end
-
-            it 'cannot visit a creating a viewing party form if you are not logged in as a user' do
-              allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(nil)
-              
-              visit('/viewing-parties/new')
-
-              expect(page).to have_content("Must be a user to access!")
-              expect(page).to have_link("Log In Here")
-            end
-          end
+      expect(page).to have_content("Must be a user to access!")
+      expect(page).to have_link("Log In Here")
+    end
+end
