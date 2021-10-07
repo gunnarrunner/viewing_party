@@ -16,30 +16,7 @@ require 'rails_helper'
         allow(MovieFacade).to receive(:create_movie).and_return(@movie)
      end
 
-     it 'displays a link to create a viewing party' do
-
-      json_response1 = File.read('spec/fixtures/popular_movies1.json')
-
-      stub_request(:get, "https://api.themoviedb.org/3/movie/popular?api_key=#{ENV['movie_key']}&page=1").
-      with(
-        headers: {
-          'Accept'=>'*/*',
-          'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-          'User-Agent'=>'Faraday v1.7.0'
-          }).
-          to_return(status: 200, body: json_response1, headers: {})
-
-          json_response2 = File.read('spec/fixtures/popular_movies2.json')
-
-          stub_request(:get, "https://api.themoviedb.org/3/movie/popular?api_key=#{ENV['movie_key']}&page=2").
-          with(
-            headers: {
-              'Accept'=>'*/*',
-              'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-              'User-Agent'=>'Faraday v1.7.0'
-              }).
-              to_return(status: 200, body: json_response2, headers: {})
-
+     it 'displays a link to create a viewing party', :vcr do
       user1 = create(:user)         
       
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user1)
@@ -52,15 +29,15 @@ require 'rails_helper'
       expect(current_path).to eq('/movies')
 
       within(first('.movie')) do
-        click_on "The Suicide Squad"
+        click_on "Free Guy"
       end
 
-      expect(current_path).to eq("/movies/436969")
+      expect(current_path).to eq("/movies/550988")
 
       expect(page).to have_button('Create a Viewing Party for Movie')
      end
 
-     it 'can display movie information' do
+     it 'can display movie information', :vcr do
        visit '/movies/550'
 
        expect(page).to have_content(@movie.title)
@@ -76,22 +53,10 @@ require 'rails_helper'
        expect(page).to have_content("Drama")
      end
 
-     it 'can display movie search results' do
-      json_response = File.read('spec/fixtures/search_movie.json')
-
-       stub_request(:get, "https://api.themoviedb.org/3/search/movie?api_key=#{ENV['movie_key']}&include_adult=false&page=1&query=fight%20club").
-         with(
-           headers: {
-       	  'Accept'=>'*/*',
-       	  'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
-       	  'User-Agent'=>'Faraday v1.7.0'
-           }).
-         to_return(status: 200, body: json_response, headers: {})
-
+     it 'can display movie search results', :vcr do
        movies = MovieService.new.movie_search('fight club')
 
        visit '/discover'
-# require "pry"; binding.pry
        fill_in :search, with: "fight club"
        click_on "Search Movies!"
 
